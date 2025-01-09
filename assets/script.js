@@ -19,55 +19,55 @@ const slides = [
 
 const buttonNext = document.querySelector(".next");
 const buttonPrev = document.querySelector(".prev");
-let currentIndex=0;
+let currentIndex = 0;
 
-for (i=0; i < slides.length; i++){
+slides.forEach(() => {
 	let bullet = document.createElement("span");
 	bullet.classList.add("dot");
+
 	let parentSpan = document.querySelector(".dots");
 	parentSpan.appendChild(bullet);
-}
+});
 
-let active=document.getElementsByClassName("dot")[0];
-active.classList.add("dot_selected");
+let bulletActive = document.getElementsByClassName("dot")[currentIndex].classList.add("dot_selected");
 
-function changeSlide(currentIndex){
-	let active=document.getElementsByClassName("dot")[currentIndex];
-	active.classList.add("dot_selected");
-	let slide = document.getElementById("slide-img");
-	slide.src="./assets/images/slideshow/"+slides[currentIndex].image;
-	let tagLine = document.getElementById("banner-tagline");
-	tagLine.innerHTML=slides[currentIndex].tagLine;
-}
-
-function inactiveDots(){
-	for(let i=0; i<slides.length; i++){
-		let inactive=document.getElementsByClassName("dot")[i];
-		inactive.classList.remove("dot_selected");
-	}
-}
-
-buttonPrev.addEventListener("click", () =>{
-	if (currentIndex>0){
-		currentIndex--;
-	}else{
-		currentIndex=slides.length-1;
+const dotSelected = (currentIndex) => {
+	for (let i=0; i<slides.length; i++){
+		let bulletInactive=document.getElementsByClassName("dot")[i];
+		bulletInactive.classList.remove("dot_selected");
 	}
 
-	inactiveDots();
+	let bulletActive = document.getElementsByClassName("dot")[currentIndex]
+	bulletActive.classList.add("dot_selected");
+}
+
+const changeSlide = (currentIndex) => {
+	
+	let slide = document.querySelector(".banner-img");
+	slide.src = "./assets/images/slideshow/"+slides[currentIndex].image;
+
+	let tagLine = document.querySelector(".banner-tagline");
+	tagLine.innerHTML = slides[currentIndex].tagLine;
+
+}
+
+buttonPrev.addEventListener("click", () => {
+	
+	currentIndex>0 ? currentIndex-- : currentIndex=slides.length-1;
 	
 	changeSlide(currentIndex);
+
+	dotSelected(currentIndex);
+
 });
 
 buttonNext.addEventListener("click", ()=>{
-	if (currentIndex<slides.length-1){
-		currentIndex++;
-	}else{
-		currentIndex=0;
-	}
-
-	inactiveDots();
+	
+	currentIndex<slides.length-1 ? currentIndex++ : currentIndex=0;
 
 	changeSlide(currentIndex);
+
+	dotSelected(currentIndex);
+
 });
 
